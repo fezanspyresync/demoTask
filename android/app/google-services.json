@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "378081587914",
+    "project_id": "nordtask-d324f",
+    "storage_bucket": "nordtask-d324f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:378081587914:android:be87d348bf79565aab7a33",
+        "android_client_info": {
+          "package_name": "com.nordtask"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5HGzQychPBPe4OSvDNxf9xk0UiokPKTk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
