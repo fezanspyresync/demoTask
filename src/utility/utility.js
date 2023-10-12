@@ -104,7 +104,8 @@ export const signInHandler = (email, password, navigation) => {
     .signInWithEmailAndPassword(email, password)
     .then(userCredential => {
       const user = userCredential.user;
-      console.log('======><========', user);
+      console.log('======>userCredential<========', user);
+      AsyncStorage.setItem('uid', user.uid);
       Toast.show({
         type: 'success',
         text1: 'success',
@@ -115,7 +116,13 @@ export const signInHandler = (email, password, navigation) => {
     })
     .catch(error => {
       if (error.code === 'auth/invalid-login') {
-        console.log('That email address is already in use!');
+        Toast.show({
+          type: 'error',
+          text1: 'error',
+          text2: `${error.code} 👋`,
+        });
+      }
+      if (error.code === 'auth/network-request-failed') {
         Toast.show({
           type: 'error',
           text1: 'error',
