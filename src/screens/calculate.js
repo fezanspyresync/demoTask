@@ -14,19 +14,21 @@ import {
 } from 'react-native-responsive-screen';
 import colors from '../utility/constant';
 import axios from 'axios';
+import Toast from 'react-native-toast-message';
 
 export default function Calculate() {
   const [fNumber, setFNumber] = useState('');
   const [sNumber, setSNumber] = useState('');
+  const [result, setResult] = useState('');
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [dropdownHeight, setDropdownHeight] = useState(0);
   const dropdownRef = useRef(null);
   const [items, setItems] = useState([
-    {label: 'Add', value: 'Add'},
-    {label: 'Multiply', value: 'Multiply'},
-    {label: 'Divide', value: 'Divide'},
-    {label: 'Subtract', value: 'Subtract'},
+    {label: 'Add', value: 'add'},
+    {label: 'Multiply', value: 'multiply'},
+    {label: 'Divide', value: 'div'},
+    {label: 'Subtract', value: 'sub'},
   ]);
 
   const onOpenDropdown = () => {
@@ -43,23 +45,33 @@ export default function Calculate() {
       };
 
       const data = {
-        param1: 'value1',
-        param2: 'value2',
+        param1: fNumber,
+        param2: sNumber,
       };
+      if (fNumber && sNumber) {
+        const response = await axios.get(
+          `http://192.168.18.238:3000/${value}`,
+          {
+            headers: headers,
+            params: data,
+          },
+        );
 
-      const response = await axios.get('http://192.168.39.129:3000/add', {
-        headers: headers,
-        params: data,
-      });
-
-      console.log('Response data:', response.data);
+        console.log('Response data:', response.data);
+        setResult(response.data);
+      } else {
+        Toast.show({
+          type: 'info',
+          text1: 'info',
+          text2: 'Please enter both numbers',
+        });
+      }
     } catch (error) {
       console.log(error);
     }
   };
-  useEffect(() => {
-    funHandler();
-  }, []);
+
+  console.log(result);
 
   return (
     <ScrollView contentContainerStyle={{flex: 1}}>
@@ -107,10 +119,14 @@ export default function Calculate() {
           />
         </View>
         <Text style={{marginVertical: 10}}>
-          After calculation:{' '}
-          <Text style={{fontSize: 16, fontWeight: 'bold'}}>1231</Text>{' '}
+          {result && (
+            <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+              After calculation:{result}
+            </Text>
+          )}
         </Text>
         <TouchableOpacity
+          onPress={() => funHandler()}
           style={{
             width: widthPercentageToDP(70),
             padding: 10,
