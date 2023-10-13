@@ -13,6 +13,7 @@ import colors from '../utility/constant';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import firestore from '@react-native-firebase/firestore';
+import Toast from 'react-native-toast-message';
 
 export default function Writer() {
   const [message, setMessage] = useState('');
@@ -32,6 +33,12 @@ export default function Writer() {
         })
         .then(() => {
           console.log('Message is send!');
+          Toast.show({
+            type: 'success',
+            text1: 'Success',
+            text2: 'Message is send',
+          });
+          setMessage('');
           fetchData();
         });
     } catch (error) {
@@ -68,6 +75,7 @@ export default function Writer() {
           value={message}
           onChangeText={messageHandler}
           style={styles.messageInput}
+          placeholderTextColor={'#000'}
         />
         <TouchableOpacity style={styles.sendBtn} onPress={() => sendMessage()}>
           <Ionicons name="send" color={colors.orange} size={30} />

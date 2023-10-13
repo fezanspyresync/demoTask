@@ -18,6 +18,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {signInHandler} from '../utility/utility';
 import Toast from 'react-native-toast-message';
+import colors from '../utility/constant';
 
 const Signin = () => {
   const [email, setEmail] = useState('');
@@ -86,7 +87,7 @@ const Signin = () => {
         <View style={{marginBottom: 5}}>
           <View style={styles.emailContainer}>
             <View style={styles.iconStyle}>
-              <Icon name="email" size={30} color="#900" />
+              <Icon name="email" size={30} color={colors.orange} />
             </View>
             <TextInput
               style={styles.inputStyle}
@@ -94,6 +95,7 @@ const Signin = () => {
               onChangeText={handleEmailChange}
               placeholder="Email"
               keyboardType="email-address"
+              placeholderTextColor={'#000'}
               //   onBlur={() => {
               //     if (email == '') {
               //       setEmailMessage('Required*');
@@ -108,7 +110,7 @@ const Signin = () => {
         <View>
           <View style={styles.emailContainer}>
             <View style={styles.iconStyle}>
-              <MaterialIcons name="password" size={30} color="#900" />
+              <MaterialIcons name="password" size={30} color={colors.orange} />
             </View>
             <TextInput
               style={styles.inputStyle}
@@ -116,6 +118,7 @@ const Signin = () => {
               onChangeText={handlePasswordChange}
               placeholder="Password"
               secureTextEntry={!showPassword}
+              placeholderTextColor={'#000'}
               //   onBlur={() => {
               //     if (password == '') {
               //       setPasswordMessage('Required*');
@@ -128,7 +131,7 @@ const Signin = () => {
               <Feather
                 name={showPassword ? 'eye' : 'eye-off'}
                 size={20}
-                color="#900"
+                color={colors.orange}
               />
             </TouchableOpacity>
           </View>
