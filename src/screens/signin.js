@@ -18,6 +18,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {signInHandler} from '../utility/utility';
 import Toast from 'react-native-toast-message';
+import colors from '../utility/constant';
 
 const Signin = () => {
   const [email, setEmail] = useState('');
@@ -128,7 +129,7 @@ const Signin = () => {
               <Feather
                 name={showPassword ? 'eye' : 'eye-off'}
                 size={20}
-                color="#900"
+                color={colors.orange}
               />
             </TouchableOpacity>
           </View>

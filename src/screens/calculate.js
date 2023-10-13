@@ -42,7 +42,6 @@ export default function Calculate() {
 
   const funHandler = async () => {
     try {
-      setLoading(true);
       const headers = {
         'Content-Type': 'application/json',
       };
@@ -52,6 +51,10 @@ export default function Calculate() {
         param2: sNumber,
       };
       if (fNumber && sNumber && value) {
+        setLoading(true);
+        console.log(
+          `https://faizanappbackend-625bfe2f0c97.herokuapp.com/${value}`,
+        );
         const response = await axios.get(
           `https://faizanappbackend-625bfe2f0c97.herokuapp.com/${value}`,
           {

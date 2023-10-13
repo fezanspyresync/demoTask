@@ -10,7 +10,7 @@ export default function Splash() {
   const navigation = useNavigation();
   useEffect(() => {
     setTimeout(() => {
-      navigation.replace('Home');
+      navigation.replace('Signin');
     }, 2000);
   }, []);
   return (
