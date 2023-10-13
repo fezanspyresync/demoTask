@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {
@@ -24,6 +25,7 @@ export default function Calculate() {
   const [value, setValue] = useState(null);
   const [dropdownHeight, setDropdownHeight] = useState(0);
   const dropdownRef = useRef(null);
+  const [loading, setLoading] = useState(false);
   const [items, setItems] = useState([
     {label: 'Add', value: 'add'},
     {label: 'Multiply', value: 'multiply'},
@@ -40,6 +42,7 @@ export default function Calculate() {
 
   const funHandler = async () => {
     try {
+      setLoading(true);
       const headers = {
         'Content-Type': 'application/json',
       };
@@ -48,9 +51,9 @@ export default function Calculate() {
         param1: fNumber,
         param2: sNumber,
       };
-      if (fNumber && sNumber) {
+      if (fNumber && sNumber && value) {
         const response = await axios.get(
-          `http://192.168.18.238:3000/${value}`,
+          `https://faizanappbackend-625bfe2f0c97.herokuapp.com/${value}`,
           {
             headers: headers,
             params: data,
@@ -58,6 +61,7 @@ export default function Calculate() {
         );
 
         console.log('Response data:', response.data);
+        setLoading(false);
         setResult(response.data);
       } else {
         Toast.show({
@@ -68,6 +72,12 @@ export default function Calculate() {
       }
     } catch (error) {
       console.log(error);
+      setLoading(false);
+      Toast.show({
+        type: 'error',
+        text1: 'oops',
+        text2: {error},
+      });
     }
   };
 
@@ -108,11 +118,13 @@ export default function Calculate() {
             style={{
               borderColor: colors.orange,
               marginVertical: heightPercentageToDP(1),
+              color: '#000',
             }}
             dropDownContainerStyle={{
               borderColor: colors.orange,
               backgroundColor: 'white',
               marginTop: dropdownHeight, // Adjust UI position based on dropdown height
+              color: '#000',
             }}
             dropDownDirection="BOTTOM"
             onOpen={onOpenDropdown}
@@ -136,7 +148,11 @@ export default function Calculate() {
             borderColor: colors.orange,
             borderRadius: 10,
           }}>
-          <Text>CAL</Text>
+          {loading ? (
+            <ActivityIndicator size="small" color={colors.orange} />
+          ) : (
+            <Text style={{color: '#000'}}>Calculate</Text>
+          )}
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -156,5 +172,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingLeft: 10,
     marginVertical: heightPercentageToDP(1),
+    color: '#000',
   },
 });

@@ -42,7 +42,7 @@ function App() {
           <Stack.Screen
             name="Forget"
             component={ForgotPassword}
-            options={{title: 'Reset password'}}
+            options={{title: 'Forget Password'}}
           />
           <Stack.Screen
             name="Home"

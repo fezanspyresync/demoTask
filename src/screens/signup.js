@@ -4,6 +4,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/dist/Fontisto';
@@ -16,6 +17,7 @@ import {
 } from 'react-native-responsive-screen';
 import {useNavigation} from '@react-navigation/native';
 import {signUpHandler} from '../utility/utility';
+import colors from '../utility/constant';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -27,6 +29,7 @@ const Signup = () => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
   const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
 
   const handleEmailChange = text => {
     if (emailRegex.test(text) == false) {
@@ -39,7 +42,7 @@ const Signup = () => {
 
   const handlePasswordChange = text => {
     if (passwordRegex.test(text) == false) {
-      setPasswordMessage('Invalid password*');
+      setPasswordMessage('8+ chars,A,a,$,1*');
     } else {
       setPasswordMessage('');
     }
@@ -60,7 +63,7 @@ const Signup = () => {
     }
     if (email !== '' && password !== '') {
       console.log('handler data here');
-      signUpHandler(email, password, navigation);
+      signUpHandler(email, password, navigation, setLoading);
     }
   };
 
@@ -112,7 +115,7 @@ const Signup = () => {
               <Feather
                 name={showPassword ? 'eye' : 'eye-off'}
                 size={20}
-                color="#900"
+                color={colors.orange}
               />
             </TouchableOpacity>
           </View>
@@ -122,7 +125,11 @@ const Signup = () => {
         </View>
         <View style={styles.btnContainer}>
           <TouchableOpacity style={styles.btn} onPress={() => submitHandler()}>
-            <Text style={styles.btnText}>Sign Up</Text>
+            {loading ? (
+              <ActivityIndicator size="small" color="#0000ff" />
+            ) : (
+              <Text style={styles.btnText}>Sign Up</Text>
+            )}
           </TouchableOpacity>
         </View>
       </View>
@@ -135,7 +142,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '##FF9C40',
+    backgroundColor: '#ffffff',
   },
   infoContainer: {
     height: heightPercentageToDP('50%'),
@@ -158,6 +165,7 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     flex: 1,
+    color: '#000',
   },
   btnContainer: {
     justifyContent: 'center',

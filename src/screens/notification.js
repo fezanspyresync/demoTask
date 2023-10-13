@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     // backgroundColor: '##FF9C40',
+    backgroundColor: '#ffffff',
   },
   btn: {
     height: heightPercentageToDP(10),

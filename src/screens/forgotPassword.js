@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   TextInput,
+  ActivityIndicator,
 } from 'react-native';
 
 import React, {useState} from 'react';
@@ -21,6 +22,7 @@ export default function ForgotPassword() {
   const [emailMessage, setEmailMessage] = useState('');
   const navigation = useNavigation();
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const [loading, setLoading] = useState(false);
   const handleEmailChange = text => {
     if (emailRegex.test(text) == false) {
       setEmailMessage('Invalid email*');
@@ -44,7 +46,7 @@ export default function ForgotPassword() {
         text2: `Please enter valid email 👋`,
       });
     } else {
-      updatePasswordHandler(email, navigation);
+      updatePasswordHandler(email, navigation, setLoading);
       //   Toast.show({
       //     type: 'success',
       //     text1: 'success',
@@ -75,7 +77,11 @@ export default function ForgotPassword() {
       </View>
       <View style={styles.btnContainer}>
         <TouchableOpacity style={styles.btn} onPress={() => emailHandler()}>
-          <Text style={styles.btnText}>Sent</Text>
+          {loading ? (
+            <ActivityIndicator size="small" color="#0000ff" />
+          ) : (
+            <Text style={styles.btnText}>Submit</Text>
+          )}
         </TouchableOpacity>
       </View>
     </View>
@@ -88,6 +94,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     // alignItems: 'center',
     // backgroundColor: '##FF9C40',
+    backgroundColor: '#ffffff',
   },
 
   iconStyle: {
@@ -107,6 +114,7 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     flex: 1,
+    color: '#000',
   },
   btnContainer: {
     justifyContent: 'center',

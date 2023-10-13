@@ -67,7 +67,8 @@ const fcmTokenHandler = async () => {
   }
 };
 
-export const signUpHandler = (email, password, navigation) => {
+export const signUpHandler = (email, password, navigation, setLoading) => {
+  setLoading(true);
   auth()
     .createUserWithEmailAndPassword(email, password)
     .then(() => {
@@ -77,6 +78,7 @@ export const signUpHandler = (email, password, navigation) => {
         text1: 'success',
         text2: 'User account created & signed in! 👋',
       });
+      setLoading(false);
       setTimeout(() => {
         navigation.navigate('Signin');
       }, 1000);
@@ -94,12 +96,13 @@ export const signUpHandler = (email, password, navigation) => {
       if (error.code === 'auth/invalid-email') {
         console.log('That email address is invalid!');
       }
-
+      setLoading(false);
       console.error(error);
     });
 };
 
-export const signInHandler = (email, password, navigation) => {
+export const signInHandler = (email, password, navigation, setLoading) => {
+  setLoading(true);
   auth()
     .signInWithEmailAndPassword(email, password)
     .then(userCredential => {
@@ -111,7 +114,7 @@ export const signInHandler = (email, password, navigation) => {
         text1: 'success',
         text2: 'Welcome 👋',
       });
-
+      setLoading(false);
       navigation.navigate('Home');
     })
     .catch(error => {
@@ -129,6 +132,7 @@ export const signInHandler = (email, password, navigation) => {
           text2: `${error.code} 👋`,
         });
       }
+      setLoading(false);
 
       //   if (error.code === 'auth/invalid-email') {
       //     console.log('That email address is invalid!');
@@ -138,7 +142,8 @@ export const signInHandler = (email, password, navigation) => {
     });
 };
 
-export const updatePasswordHandler = (email, navigation) => {
+export const updatePasswordHandler = (email, navigation, setLoading) => {
+  setLoading(true);
   auth()
     .sendPasswordResetEmail(email)
     .then(() => {
@@ -148,9 +153,11 @@ export const updatePasswordHandler = (email, navigation) => {
         text1: 'success',
         text2: `please check your email 👋`,
       });
+      setLoading(false);
     })
     .catch(error => {
       console.log(error);
+      setLoading(false);
     });
 };
 // Local Notification

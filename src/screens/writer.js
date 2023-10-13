@@ -101,6 +101,7 @@ export default function Writer() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#ffffff',
   },
   messageContainer: {
     flexDirection: 'row',
@@ -114,6 +115,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingLeft: 10,
     borderColor: colors.orange,
+    color: '#000',
   },
   sendBtn: {
     marginLeft: 10,

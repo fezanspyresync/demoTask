@@ -4,6 +4,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/dist/Fontisto';
@@ -28,6 +29,7 @@ const Signin = () => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
   const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
 
   const handleEmailChange = text => {
     // if (emailRegex.test(text) == false) {
@@ -60,7 +62,7 @@ const Signin = () => {
     //   return;
     // }
     if (email !== '' && password !== '') {
-      signInHandler(email, password, navigation);
+      signInHandler(email, password, navigation, setLoading);
     } else {
       Toast.show({
         type: 'info',
@@ -146,7 +148,11 @@ const Signin = () => {
         </Text>
         <View style={styles.btnContainer}>
           <TouchableOpacity style={styles.btn} onPress={() => submitHandler()}>
-            <Text style={styles.btnText}>Login</Text>
+            {loading ? (
+              <ActivityIndicator size="small" color="#0000ff" />
+            ) : (
+              <Text style={styles.btnText}>Login</Text>
+            )}
           </TouchableOpacity>
         </View>
         <View style={styles.btnContainer}>
@@ -167,6 +173,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     // backgroundColor: '##FF9C40',
+    backgroundColor: '#ffffff',
   },
   infoContainer: {
     height: heightPercentageToDP('50%'),
@@ -189,6 +196,7 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     flex: 1,
+    color: '#000',
   },
   btnContainer: {
     justifyContent: 'center',
