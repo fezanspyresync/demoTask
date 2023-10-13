@@ -87,7 +87,7 @@ const Signin = () => {
         <View style={{marginBottom: 5}}>
           <View style={styles.emailContainer}>
             <View style={styles.iconStyle}>
-              <Icon name="email" size={30} color="#900" />
+              <Icon name="email" size={30} color={colors.orange} />
             </View>
             <TextInput
               style={styles.inputStyle}
@@ -109,7 +109,7 @@ const Signin = () => {
         <View>
           <View style={styles.emailContainer}>
             <View style={styles.iconStyle}>
-              <MaterialIcons name="password" size={30} color="#900" />
+              <MaterialIcons name="password" size={30} color={colors.orange} />
             </View>
             <TextInput
               style={styles.inputStyle}
