@@ -23,6 +23,10 @@ import {
 import {PERMISSIONS, openSettings} from 'react-native-permissions';
 import storage from '@react-native-firebase/storage';
 import Entypo from 'react-native-vector-icons/Entypo';
+import {toast} from 'react-toastify';
+import Toast from 'react-native-toast-message';
+import firestore from '@react-native-firebase/firestore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Upload() {
   const [file, setFile] = useState('');
@@ -55,15 +59,60 @@ export default function Upload() {
         } else {
           setLoading(true);
           console.log('camera', response?.assets[0]?.uri);
+          const uid = await AsyncStorage.getItem('uid');
 
           const path = response?.assets[0]?.uri;
           const filename =
             new Date().getTime() + path.substring(path.lastIndexOf('/') + 1);
+          // store data into firestore bucket
           const reference = storage().ref(filename);
           await reference.putFile(path);
           const imageUrl = await storage().ref(filename).getDownloadURL();
+
           setFile(imageUrl);
           setLoading(false);
+          // store data into firestore
+          const collectionRef = firestore().collection(`Users${uid}photo`);
+          collectionRef
+            .get()
+            .then(snapshot => {
+              if (snapshot.empty) {
+                console.log('The collection does not exist.');
+                firestore()
+                  .collection(`Users${uid}photo`)
+                  .doc(`${uid}`)
+                  .set({
+                    image: imageUrl,
+                  })
+                  .then(() => {
+                    console.log('User added!');
+                    Toast.show({
+                      type: 'success',
+                      text1: 'success',
+                      text2: 'image is successfully added',
+                    });
+                  });
+              } else {
+                console.log('The collection exists.');
+                firestore()
+                  .collection(`Users${uid}photo`)
+                  .doc(`${uid}`)
+                  .update({
+                    image: imageUrl,
+                  })
+                  .then(() => {
+                    Toast.show({
+                      type: 'success',
+                      text1: 'success',
+                      text2: 'image is successfully updated',
+                    });
+                  });
+              }
+            })
+            .catch(error => {
+              console.error('Error getting collection:', error);
+            });
+
           console.log(imageUrl);
         }
       });
@@ -75,6 +124,7 @@ export default function Upload() {
         } else {
           setLoading(true);
           console.log('camera', response?.assets[0]?.uri);
+          const uid = await AsyncStorage.getItem('uid');
           const path = response?.assets[0]?.uri;
           const filename =
             new Date().getTime() + path.substring(path.lastIndexOf('/') + 1);
@@ -83,6 +133,41 @@ export default function Upload() {
           const imageUrl = await storage().ref(filename).getDownloadURL();
           setFile(imageUrl);
           setLoading(false);
+          const collectionRef = firestore().collection(`Users${uid}photo`);
+          collectionRef.get().then(snapshot => {
+            if (snapshot.empty) {
+              console.log('The collection does not exist.');
+              firestore()
+                .collection(`Users${uid}photo`)
+                .doc(`${uid}`)
+                .set({
+                  image: imageUrl,
+                })
+                .then(() => {
+                  console.log('User added!');
+                  Toast.show({
+                    type: 'success',
+                    text1: 'success',
+                    text2: 'image is successfully added',
+                  });
+                });
+            } else {
+              console.log('The collection exists.');
+              firestore()
+                .collection(`Users${uid}photo`)
+                .doc(`${uid}`)
+                .update({
+                  image: imageUrl,
+                })
+                .then(() => {
+                  Toast.show({
+                    type: 'success',
+                    text1: 'success',
+                    text2: 'image is successfully updated',
+                  });
+                });
+            }
+          });
           console.log(imageUrl);
         }
       });

@@ -13,6 +13,7 @@ import colors from '../utility/constant';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import firestore from '@react-native-firebase/firestore';
+import Toast from 'react-native-toast-message';
 
 export default function Writer() {
   const [message, setMessage] = useState('');
@@ -27,11 +28,17 @@ export default function Writer() {
       const userDocument = firestore()
         .collection(`Users${uid}`)
         .add({
-          id: new Date().getTime(),
           message,
         })
-        .then(() => {
+        .then(docinfo => {
           console.log('Message is send!');
+
+          Toast.show({
+            type: 'success',
+            text1: 'Success',
+            text2: 'Message is send',
+          });
+          setMessage('');
           fetchData();
         });
     } catch (error) {
@@ -43,15 +50,37 @@ export default function Writer() {
     try {
       const uid = await AsyncStorage.getItem('uid');
       const snapshot = await firestore().collection(`Users${uid}`).get();
-      const messages = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      console.log('ygasdgastydfytfdtasfdafsdafdsyasf', messages);
+      snapshot.forEach;
+      const messages = snapshot.docs.map(doc => {
+        console.log(doc.data());
+        return {
+          id: doc.id,
+          ...doc.data(),
+        };
+      });
+      console.log('Response result', messages);
+      console.log(' result', messages);
       setMessageList(messages);
     } catch (error) {
       console.log('Error fetching data:', error);
     }
+  };
+
+  const deleteMessage = async id => {
+    const uid = await AsyncStorage.getItem('uid');
+    console.log(id);
+    firestore()
+      .collection(`Users${uid}`)
+      .doc(id)
+      .delete()
+      .then(() => {
+        Toast.show({
+          type: 'success',
+          text1: 'success',
+          text2: 'delete successfully',
+        });
+        fetchData();
+      });
   };
 
   useEffect(() => {
@@ -68,6 +97,7 @@ export default function Writer() {
           value={message}
           onChangeText={messageHandler}
           style={styles.messageInput}
+          placeholderTextColor={'#000'}
         />
         <TouchableOpacity style={styles.sendBtn} onPress={() => sendMessage()}>
           <Ionicons name="send" color={colors.orange} size={30} />
@@ -80,6 +110,7 @@ export default function Writer() {
             renderItem={({item}) => {
               return (
                 <TouchableOpacity
+                  onPress={() => deleteMessage(item.id)}
                   style={{
                     backgroundColor: colors.orangeLight,
                     margin: 5,

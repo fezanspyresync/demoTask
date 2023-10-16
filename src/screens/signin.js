@@ -95,6 +95,7 @@ const Signin = () => {
               onChangeText={handleEmailChange}
               placeholder="Email"
               keyboardType="email-address"
+              placeholderTextColor={'#000'}
               //   onBlur={() => {
               //     if (email == '') {
               //       setEmailMessage('Required*');
@@ -117,6 +118,7 @@ const Signin = () => {
               onChangeText={handlePasswordChange}
               placeholder="Password"
               secureTextEntry={!showPassword}
+              placeholderTextColor={'#000'}
               //   onBlur={() => {
               //     if (password == '') {
               //       setPasswordMessage('Required*');

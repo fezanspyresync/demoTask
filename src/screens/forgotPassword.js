@@ -16,6 +16,7 @@ import {
 } from 'react-native-responsive-screen';
 import {updatePasswordHandler} from '../utility/utility';
 import {useNavigation} from '@react-navigation/native';
+import colors from '../utility/constant';
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
@@ -59,7 +60,7 @@ export default function ForgotPassword() {
       <View style={{alignItems: 'center'}}>
         <View style={styles.emailContainer}>
           <View style={styles.iconStyle}>
-            <Icon name="email" size={30} color="#900" />
+            <Icon name="email" size={30} color={colors.orange} />
           </View>
           <TextInput
             style={styles.inputStyle}
@@ -67,6 +68,7 @@ export default function ForgotPassword() {
             onChangeText={handleEmailChange}
             placeholder="Email"
             keyboardType="email-address"
+            placeholderTextColor={'#000'}
             //   onBlur={() => {
             //     if (email == '') {
             //       setEmailMessage('Required*');

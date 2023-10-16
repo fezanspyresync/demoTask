@@ -52,9 +52,7 @@ export default function Calculate() {
       };
       if (fNumber && sNumber && value) {
         setLoading(true);
-        console.log(
-          `https://faizanappbackend-625bfe2f0c97.herokuapp.com/${value}`,
-        );
+        console.log(typeof value);
         const response = await axios.get(
           `https://faizanappbackend-625bfe2f0c97.herokuapp.com/${value}`,
           {
@@ -70,7 +68,7 @@ export default function Calculate() {
         Toast.show({
           type: 'info',
           text1: 'info',
-          text2: 'Please enter both numbers',
+          text2: 'Please provide correct info',
         });
       }
     } catch (error) {
@@ -100,6 +98,7 @@ export default function Calculate() {
             style={styles.inputStyle}
             placeholder="Number"
             keyboardType="numeric"
+            placeholderTextColor={'#000'}
           />
           <TextInput
             value={sNumber}
@@ -107,6 +106,7 @@ export default function Calculate() {
             style={styles.inputStyle}
             keyboardType="numeric"
             placeholder="Number"
+            placeholderTextColor={'#000'}
           />
           <DropDownPicker
             ref={dropdownRef}
@@ -133,10 +133,10 @@ export default function Calculate() {
             onOpen={onOpenDropdown}
           />
         </View>
-        <Text style={{marginVertical: 10}}>
+        <Text style={{marginVertical: 10, color: '#000'}}>
           {result && (
-            <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-              After calculation:{result}
+            <Text style={{fontSize: 16, fontWeight: 'bold', color: '#000'}}>
+              After calculation:{result.match(/\d+/)[0]}
             </Text>
           )}
         </Text>
